@@ -139,6 +139,9 @@ namespace NadekoBot.Modules.Music.Classes
 
         public async Task Play(IAudioClient voiceClient, CancellationToken cancelToken)
         {
+            if (!Directory.Exists(Music.MusicDataPath))
+                Directory.CreateDirectory(Music.MusicDataPath);
+
             var filename = Path.Combine(Music.MusicDataPath, DateTime.Now.UnixTimestamp().ToString());
 
             SongBuffer inStream = new SongBuffer(MusicPlayer, filename, SongInfo, skipTo, frameBytes * 100);
