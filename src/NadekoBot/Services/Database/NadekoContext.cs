@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database
         public DbSet<CustomReaction> CustomReactions { get; set; }
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
         public DbSet<UserPokeTypes> PokeGame { get; set; }
+        public DbSet<Volunteer> Volunteers { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -236,6 +237,15 @@ namespace NadekoBot.Services.Database
 
             #region Protection
 
+
+            #endregion
+
+            #region Volunteers
+
+            var volunteerEntity = modelBuilder.Entity<Volunteer>();
+            volunteerEntity
+                .HasIndex(d => d.UserId)
+                .IsUnique();
 
             #endregion
         }

@@ -9,8 +9,8 @@ namespace NadekoBot.Services.Database.Models
         public bool ForwardMessages { get; set; } = true;
         public bool ForwardToAllOwners { get; set; } = true;
 
-        public float CurrencyGenerationChance { get; set; } = 0.02f;
-        public int CurrencyGenerationCooldown { get; set; } = 10;
+        public float CurrencyGenerationChance { get; set; } = 0.05f;
+        public int CurrencyGenerationCooldown { get; set; } = 60;
 
         public HashSet<ModulePrefix> ModulePrefixes { get; set; } = new HashSet<ModulePrefix>();
 
@@ -20,9 +20,9 @@ namespace NadekoBot.Services.Database.Models
         public string RemindMessageFormat { get; set; } = "❗⏰**I've been told to remind you to '%message%' now by %user%.**⏰❗";
 
 
-        public string CurrencySign { get; set; } = "🌸";
-        public string CurrencyName { get; set; } = "Nadeko Flower";
-        public string CurrencyPluralName { get; set; } = "Nadeko Flowers";
+        public string CurrencySign { get; set; } = "🎫";
+        public string CurrencyName { get; set; } = "Theater Ticket";
+        public string CurrencyPluralName { get; set; } = "Theater Tickets";
 
         public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
         public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();

@@ -2925,4 +2925,40 @@
   <data name="antispamignore_usage" xml:space="preserve">
     <value>`{0}antispamignore`</value>
   </data>
+  <data name="clearvolunteers_cmd" xml:space="preserve">
+    <value>clearvolunteers</value>
+  </data>
+  <data name="clearvolunteers_desc" xml:space="preserve">
+    <value>Clears the list of volunteers.</value>
+  </data>
+  <data name="clearvolunteers_usage" xml:space="preserve">
+    <value>{0}clearvolunteers</value>
+  </data>
+  <data name="iunvolunteer_cmd" xml:space="preserve">
+    <value>iunvolunteer</value>
+  </data>
+  <data name="iunvolunteer_desc" xml:space="preserve">
+    <value>Removes you from the list of volunteers.</value>
+  </data>
+  <data name="iunvolunteer_usage" xml:space="preserve">
+    <value>{0}iunvolunteer</value>
+  </data>
+  <data name="ivolunteer_cmd" xml:space="preserve">
+    <value>ivolunteer</value>
+  </data>
+  <data name="ivolunteer_desc" xml:space="preserve">
+    <value>Adds you as a volunteer for the next table read.</value>
+  </data>
+  <data name="ivolunteer_usage" xml:space="preserve">
+    <value>{0}ivolunteer</value>
+  </data>
+  <data name="listvolunteers_cmd" xml:space="preserve">
+    <value>listvolunteers</value>
+  </data>
+  <data name="listvolunteers_desc" xml:space="preserve">
+    <value>Lists the volunteers for the next table read.</value>
+  </data>
+  <data name="listvolunteers_usage" xml:space="preserve">
+    <value>{0}listvolunteers</value>
+  </data>
 </root>

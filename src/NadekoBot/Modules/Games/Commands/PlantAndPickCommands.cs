@@ -130,7 +130,7 @@ namespace NadekoBot.Modules.Games
                     await Task.WhenAll(msgs.Select(toDelete => toDelete.DeleteAsync())).ConfigureAwait(false);
 
                     await CurrencyHandler.AddCurrencyAsync((IGuildUser)Context.User, $"Picked {Gambling.Gambling.CurrencyPluralName}", msgs.Count, false).ConfigureAwait(false);
-                    var msg = await channel.SendConfirmAsync($"**{Context.User}** picked {msgs.Count}{Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
+                    var msg = await channel.SendConfirmAsync($"**{Context.User}** picked up {msgs.Count} {Gambling.Gambling.CurrencySign}!").ConfigureAwait(false);
                     msg.DeleteAfter(10);
                 }
                 finally
@@ -157,7 +157,7 @@ namespace NadekoBot.Modules.Games
                 IUserMessage msg;
                 var vowelFirst = new[] { 'a', 'e', 'i', 'o', 'u' }.Contains(Gambling.Gambling.CurrencyName[0]);
                 
-                var msgToSend = $"Oh how Nice! **{Context.User.Username}** planted {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
+                var msgToSend = $"Oh how Nice! **{Context.User.Username}** dropped {(vowelFirst ? "an" : "a")} {Gambling.Gambling.CurrencyName}. Pick it up using {NadekoBot.ModulePrefixes[typeof(Games).Name]}pick";
                 if (file == null)
                 {
                     msg = await Context.Channel.SendConfirmAsync(Gambling.Gambling.CurrencySign).ConfigureAwait(false);
