@@ -252,7 +252,6 @@ namespace NadekoBot.Services.Database
             volunteerEntity
                 .HasIndex(d => d.UserId)
                 .IsUnique();
-
             #endregion
         }
     }

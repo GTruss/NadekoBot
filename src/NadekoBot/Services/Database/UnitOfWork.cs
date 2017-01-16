@@ -48,6 +48,7 @@ namespace NadekoBot.Services.Database
         private IPokeGameRepository _pokegame;
         public IPokeGameRepository PokeGame => _pokegame ?? (_pokegame = new PokeGameRepository(_context));
 
+
         private IVolunteersRepository _volunteers;
         public IVolunteersRepository Volunteers => _volunteers ?? (_volunteers = new VolunteersRepository(_context));
 

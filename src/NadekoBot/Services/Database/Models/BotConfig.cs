@@ -38,7 +38,6 @@ namespace NadekoBot.Services.Database.Models
         /// </summary>
         public HashSet<CommandPrice> CommandPrices { get; set; } = new HashSet<CommandPrice>();
 
-
         public HashSet<EightBallResponse> EightBallResponses { get; set; } = new HashSet<EightBallResponse>();
         public HashSet<RaceAnimal> RaceAnimals { get; set; } = new HashSet<RaceAnimal>();
 
