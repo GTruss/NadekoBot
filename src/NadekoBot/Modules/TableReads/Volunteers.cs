@@ -25,7 +25,11 @@ namespace NadekoBot.Modules.TableReads
                 volunteers = uow.Volunteers.GetVolunteers();
             }
 
-            await Context.Channel.SendConfirmAsync("Registered Volunteers for the next Table Read - Friday at 4pm PST / 7 pm EST:", string.Join("⭐", volunteers.Select(d => d.MentionName))).ConfigureAwait(false);
+            //await Context.Channel.SendConfirmAsync("Registered Volunteers for the next Table Read - Friday at 4pm PST / 7 pm EST:", string.Join("⭐", volunteers.Select(d => d.MentionName))).ConfigureAwait(false);
+            await Context.Channel.SendConfirmAsync("Registered Volunteers for the next Table Read - Friday at 4pm PST / 7 pm EST:", "").ConfigureAwait(false);
+
+            if (volunteers.Count<Volunteer>() > 0)
+                await Context.Channel.SendMessageAsync(string.Join("⭐", volunteers.Select(d => d.MentionName)));
 
         }
 
@@ -34,9 +38,11 @@ namespace NadekoBot.Modules.TableReads
         public async Task Ivolunteer() {
             Volunteer vol;
             IUser volunteer = Context.User;
+            //<@{ NadekoBot.Client.CurrentUser().Id}>
 
             using (var uow = DbHandler.UnitOfWork()) {
-                vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, volunteer.Mention, 0, Context.Guild.Id);
+                //vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, volunteer.Mention, 0, Context.Guild.Id);
+                vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, $"<@{volunteer.Id}>", 0, Context.Guild.Id);
                 await uow.CompleteAsync();
             }
 
