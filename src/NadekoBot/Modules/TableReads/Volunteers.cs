@@ -40,13 +40,23 @@ namespace NadekoBot.Modules.TableReads
             IUser volunteer = Context.User;
             //<@{ NadekoBot.Client.CurrentUser().Id}>
 
+            bool canVolunteer = true;
+
             using (var uow = DbHandler.UnitOfWork()) {
-                //vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, volunteer.Mention, 0, Context.Guild.Id);
-                vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, $"<@{volunteer.Id}>", 0, Context.Guild.Id);
-                await uow.CompleteAsync();
+                TableRead tr = uow.TableReads.GetTableRead(Context.Guild.Id);
+                if (!tr.IsOpen)
+                    canVolunteer = false;
+                else {
+                    vol = uow.Volunteers.AddVolunteer(volunteer.Id, volunteer.Username, $"<@{volunteer.Id}>", 0, Context.Guild.Id);
+                    await uow.CompleteAsync();
+                }
             }
 
-            await Context.Channel.SendConfirmAsync($"Successfuly added {volunteer.Username} as a volunteer Table Reader.").ConfigureAwait(false);
+            if (canVolunteer)
+                await Context.Channel.SendConfirmAsync($"Successfuly added {volunteer.Username} as a volunteer Table Reader.").ConfigureAwait(false);
+            else
+                await Context.Channel.SendConfirmAsync($"The Table Read is closed to new volunteers.").ConfigureAwait(false);
+
         }
 
         [NadekoCommand, Usage, Description, Aliases]
@@ -65,7 +75,7 @@ namespace NadekoBot.Modules.TableReads
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
-        [RequireUserPermission(ChannelPermission.ManageMessages)]
+        [RequireUserPermission(ChannelPermission.ManagePermissions)]
         public async Task ClearVolunteers() {
 
             using (var uow = DbHandler.UnitOfWork()) {
@@ -74,6 +84,20 @@ namespace NadekoBot.Modules.TableReads
             }
 
             await Context.Channel.SendConfirmAsync($"The volunteers list has been cleared.").ConfigureAwait(false);
+        }
+
+        [NadekoCommand, Usage, Description, Aliases]
+        [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(ChannelPermission.ManagePermissions)]
+        public async Task RemoveVolunteer(IUser volunteer) {
+            Volunteer vol;
+
+            using (var uow = DbHandler.UnitOfWork()) {
+                vol = uow.Volunteers.RemoveVolunteer(volunteer.Id, 0, Context.Guild.Id);
+                await uow.CompleteAsync();
+            }
+
+            await Context.Channel.SendConfirmAsync($"Successfuly removed {volunteer.Username} from the volunteer list.").ConfigureAwait(false);
         }
     }
 }

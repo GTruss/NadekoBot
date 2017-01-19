@@ -2953,7 +2953,7 @@
     <value>`{0}startevent flowerreaction`</value>
   </data>
   <data name="clearvolunteers_cmd" xml:space="preserve">
-    <value>clearvolunteers</value>
+    <value>clearvolunteers cv</value>
   </data>
   <data name="clearvolunteers_desc" xml:space="preserve">
     <value>Clears the list of volunteers.</value>
@@ -2980,12 +2980,39 @@
     <value>{0}ivolunteer</value>
   </data>
   <data name="listvolunteers_cmd" xml:space="preserve">
-    <value>listvolunteers</value>
+    <value>listvolunteers lv</value>
   </data>
   <data name="listvolunteers_desc" xml:space="preserve">
     <value>Lists the volunteers for the next table read.</value>
   </data>
   <data name="listvolunteers_usage" xml:space="preserve">
-    <value>{0}listvolunteers</value>
+    <value>`{0}listvolunteers` or `{0}lv`</value>
+  </data>
+  <data name="removevolunteer_cmd" xml:space="preserve">
+    <value>removevolunteer rv</value>
+  </data>
+  <data name="removevolunteer_desc" xml:space="preserve">
+    <value>Removes a volunteer from the next table read.</value>
+  </data>
+  <data name="removevolunteer_usage" xml:space="preserve">
+    <value>`{0}removevolunteer @shoob` or `{0}rv @shoob`</value>
+  </data>
+  <data name="closetableread_cmd" xml:space="preserve">
+    <value>closetableread close</value>
+  </data>
+  <data name="closetableread_desc" xml:space="preserve">
+    <value>Closes the next table read to new volunteers.</value>
+  </data>
+  <data name="closetableread_usage" xml:space="preserve">
+    <value>`{0}closetableread` or `{0}close`</value>
+  </data>
+  <data name="opentableread_cmd" xml:space="preserve">
+    <value>opentableread open</value>
+  </data>
+  <data name="opentableread_desc" xml:space="preserve">
+    <value>Opens the next table read to new volunteers.</value>
+  </data>
+  <data name="opentableread_usage" xml:space="preserve">
+    <value>`{0}opentableread` or `{0}open`</value>
   </data>
 </root>

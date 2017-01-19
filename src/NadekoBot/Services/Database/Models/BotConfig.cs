@@ -56,6 +56,7 @@ For a specific command help, use `{1}h CommandName` (for example {1}h !!q)
 Nadeko Support Server: https://discord.gg/0ehQwTK2RBjAxzEY";
 
         public int MigrationVersion { get; set; }
+
     }
 
     public class PlayingStatus :DbEntity

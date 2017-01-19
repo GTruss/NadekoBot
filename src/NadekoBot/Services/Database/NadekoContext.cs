@@ -23,6 +23,7 @@ namespace NadekoBot.Services.Database
         public DbSet<CurrencyTransaction> CurrencyTransactions { get; set; }
         public DbSet<UserPokeTypes> PokeGame { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
+        public DbSet<TableRead> TableReads { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -251,6 +252,14 @@ namespace NadekoBot.Services.Database
             var volunteerEntity = modelBuilder.Entity<Volunteer>();
             volunteerEntity
                 .HasIndex(d => d.UserId)
+                .IsUnique();
+            #endregion
+
+            #region Table Reads
+
+            var tableReadEntity = modelBuilder.Entity<TableRead>();
+            tableReadEntity
+                .HasIndex(d => d.GuildId)
                 .IsUnique();
             #endregion
         }

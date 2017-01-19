@@ -22,6 +22,7 @@ namespace NadekoBot.Services.Database
         IMusicPlaylistRepository MusicPlaylists { get; }
         IPokeGameRepository PokeGame { get; }
         IVolunteersRepository Volunteers { get; }
+        ITableReadsRepository TableReads { get; }
 
         int Complete();
         Task<int> CompleteAsync();

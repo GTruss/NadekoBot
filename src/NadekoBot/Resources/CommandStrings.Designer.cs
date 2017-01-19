@@ -1707,6 +1707,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to clearvolunteers cv.
+        /// </summary>
+        public static string clearvolunteers_cmd {
+            get {
+                return ResourceManager.GetString("clearvolunteers_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Clears the list of volunteers..
+        /// </summary>
+        public static string clearvolunteers_desc {
+            get {
+                return ResourceManager.GetString("clearvolunteers_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}clearvolunteers.
+        /// </summary>
+        public static string clearvolunteers_usage {
+            get {
+                return ResourceManager.GetString("clearvolunteers_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to cleverbot.
         /// </summary>
         public static string cleverbot_cmd {
@@ -1730,6 +1757,33 @@ namespace NadekoBot.Resources {
         public static string cleverbot_usage {
             get {
                 return ResourceManager.GetString("cleverbot_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to closetableread close.
+        /// </summary>
+        public static string closetableread_cmd {
+            get {
+                return ResourceManager.GetString("closetableread_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Closes the next table read to new volunteers..
+        /// </summary>
+        public static string closetableread_desc {
+            get {
+                return ResourceManager.GetString("closetableread_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}closetableread` or `{0}close`.
+        /// </summary>
+        public static string closetableread_usage {
+            get {
+                return ResourceManager.GetString("closetableread_usage", resourceCulture);
             }
         }
         
@@ -3516,6 +3570,60 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to iunvolunteer.
+        /// </summary>
+        public static string iunvolunteer_cmd {
+            get {
+                return ResourceManager.GetString("iunvolunteer_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes you from the list of volunteers..
+        /// </summary>
+        public static string iunvolunteer_desc {
+            get {
+                return ResourceManager.GetString("iunvolunteer_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}iunvolunteer.
+        /// </summary>
+        public static string iunvolunteer_usage {
+            get {
+                return ResourceManager.GetString("iunvolunteer_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to ivolunteer.
+        /// </summary>
+        public static string ivolunteer_cmd {
+            get {
+                return ResourceManager.GetString("ivolunteer_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Adds you as a volunteer for the next table read..
+        /// </summary>
+        public static string ivolunteer_desc {
+            get {
+                return ResourceManager.GetString("ivolunteer_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}ivolunteer.
+        /// </summary>
+        public static string ivolunteer_usage {
+            get {
+                return ResourceManager.GetString("ivolunteer_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to jcsc.
         /// </summary>
         public static string jcsc_cmd {
@@ -3971,6 +4079,33 @@ namespace NadekoBot.Resources {
         public static string liststreams_usage {
             get {
                 return ResourceManager.GetString("liststreams_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to listvolunteers lv.
+        /// </summary>
+        public static string listvolunteers_cmd {
+            get {
+                return ResourceManager.GetString("listvolunteers_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Lists the volunteers for the next table read..
+        /// </summary>
+        public static string listvolunteers_desc {
+            get {
+                return ResourceManager.GetString("listvolunteers_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}listvolunteers` or `{0}lv`.
+        /// </summary>
+        public static string listvolunteers_usage {
+            get {
+                return ResourceManager.GetString("listvolunteers_usage", resourceCulture);
             }
         }
         
@@ -4835,6 +4970,33 @@ namespace NadekoBot.Resources {
         public static string nroll_usage {
             get {
                 return ResourceManager.GetString("nroll_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to opentableread open.
+        /// </summary>
+        public static string opentableread_cmd {
+            get {
+                return ResourceManager.GetString("opentableread_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Opens the next table read to new volunteers..
+        /// </summary>
+        public static string opentableread_desc {
+            get {
+                return ResourceManager.GetString("opentableread_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}opentableread` or `{0}open`.
+        /// </summary>
+        public static string opentableread_usage {
+            get {
+                return ResourceManager.GetString("opentableread_usage", resourceCulture);
             }
         }
         
@@ -5780,6 +5942,33 @@ namespace NadekoBot.Resources {
         public static string removestream_usage {
             get {
                 return ResourceManager.GetString("removestream_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to removevolunteer rv.
+        /// </summary>
+        public static string removevolunteer_cmd {
+            get {
+                return ResourceManager.GetString("removevolunteer_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Removes a volunteer from the next table read..
+        /// </summary>
+        public static string removevolunteer_desc {
+            get {
+                return ResourceManager.GetString("removevolunteer_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}removevolunteer @shoob` or `{0}rv @shoob`.
+        /// </summary>
+        public static string removevolunteer_usage {
+            get {
+                return ResourceManager.GetString("removevolunteer_usage", resourceCulture);
             }
         }
         

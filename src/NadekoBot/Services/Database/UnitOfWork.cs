@@ -52,6 +52,9 @@ namespace NadekoBot.Services.Database
         private IVolunteersRepository _volunteers;
         public IVolunteersRepository Volunteers => _volunteers ?? (_volunteers = new VolunteersRepository(_context));
 
+        private ITableReadsRepository _tableReads;
+        public ITableReadsRepository TableReads => _tableReads ?? (_tableReads = new TableReadsRepository(_context));
+
         public UnitOfWork(NadekoContext context)
         {
             _context = context;
