@@ -25,6 +25,7 @@ namespace NadekoBot.Modules.Utility
 
         [NadekoCommand, Usage, Description, Aliases]
         [RequireContext(ContextType.Guild)]
+        [RequireUserPermission(GuildPermission.ManageRoles)]
         [OwnerOnly]
         public async Task RotateRoleColor(int timeout, IRole role, params string[] hexes)
         {
@@ -115,15 +116,18 @@ namespace NadekoBot.Modules.Utility
             var arr = (await (Context.Channel as IGuildChannel).Guild.GetUsersAsync())
                     .Where(u => u.Game?.Name?.ToUpperInvariant() == game)
                     .Select(u => u.Username)
+                    .Shuffle()
+                    .Take(60)
                     .ToList();
 
             int i = 0;
             if (!arr.Any())
                 await Context.Channel.SendErrorAsync("Nobody is playing that game.").ConfigureAwait(false);
-            else
+            else { 
                 await Context.Channel.SendConfirmAsync("```css\n" + string.Join("\n", arr.GroupBy(item => (i++) / 2)
                                                                                  .Select(ig => string.Concat(ig.Select(el => $"• {el,-27}")))) + "\n```")
                                                                                  .ConfigureAwait(false);
+                }
         }
 
         [NadekoCommand, Usage, Description, Aliases]

@@ -204,36 +204,37 @@ namespace NadekoBot.Modules.Music
             const int itemsPerPage = 10;
 
             var total = musicPlayer.TotalPlaytime;
+            var totalStr = total == TimeSpan.MaxValue ? "∞" : $"{(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s";
             var maxPlaytime = musicPlayer.MaxPlaytimeSeconds;
             var lastPage = musicPlayer.Playlist.Count / itemsPerPage;
             Func<int, EmbedBuilder> printAction = (curPage) =>
             {
                 int startAt = itemsPerPage * (curPage - 1);
                 var number = 0 + startAt;
+                var desc = string.Join("\n", musicPlayer.Playlist
+                        .Skip(startAt)
+                        .Take(itemsPerPage)
+                        .Select(v => $"`{++number}.` {v.PrettyFullName}"));
+
+                if (currentSong != null)
+                    desc = $"`🔊` {currentSong.PrettyFullName}\n\n" + desc;
+
+                if (musicPlayer.RepeatSong)
+                    desc = "🔂 Repeating Current Song\n\n" + desc;
+                else if (musicPlayer.RepeatPlaylist)
+                    desc = "🔁 Repeating Playlist\n\n" + desc;
+                
+
+
                 var embed = new EmbedBuilder()
                     .WithAuthor(eab => eab.WithName($"Player Queue - Page {curPage}/{lastPage + 1}")
                                           .WithMusicIcon())
-                    .WithDescription(string.Join("\n", musicPlayer.Playlist
-                        .Skip(startAt)
-                        .Take(itemsPerPage)
-                        .Select(v => $"`{++number}.` {v.PrettyFullName}")))
+                    .WithDescription(desc)
                     .WithFooter(ef => ef.WithText($"{musicPlayer.PrettyVolume} | {musicPlayer.Playlist.Count} " +
-    $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {(int)total.TotalHours}h {total.Minutes}m {total.Seconds}s | " +
+    $"{("tracks".SnPl(musicPlayer.Playlist.Count))} | {totalStr} | " +
     (musicPlayer.FairPlay ? "✔️fairplay" : "✖️fairplay") + $" | " + (maxPlaytime == 0 ? "unlimited" : $"{maxPlaytime}s limit")))
                     .WithOkColor();
 
-                if (musicPlayer.RepeatSong)
-                {
-                    embed.WithTitle($"🔂 Repeating Song: {currentSong.SongInfo.Title} | {currentSong.PrettyFullTime}");
-                }
-                else if (musicPlayer.RepeatPlaylist)
-                {
-                    embed.WithTitle("🔁 Repeating Playlist");
-                }
-                if (musicPlayer.MaxQueueSize != 0 && musicPlayer.Playlist.Count >= musicPlayer.MaxQueueSize)
-                {
-                    embed.WithTitle("🎵 Song queue is full!");
-                }
                 return embed;
             };
             await Context.Channel.SendPaginatedConfirmAsync(page, printAction, lastPage, false).ConfigureAwait(false);
@@ -804,7 +805,7 @@ namespace NadekoBot.Modules.Music
             if (voiceCh == null || voiceCh.Guild != textCh.Guild)
             {
                 if (!silent)
-                    await textCh.SendErrorAsync("💢 You need to be in a voice channel on this server.\n If you are already in a voice (ITextChannel)Context.Channel, try rejoining.").ConfigureAwait(false);
+                    await textCh.SendErrorAsync($"💢 You need to be in a voice channel on this server.").ConfigureAwait(false);
                 throw new ArgumentNullException(nameof(voiceCh));
             }
             if (string.IsNullOrWhiteSpace(query) || query.Length < 3)
