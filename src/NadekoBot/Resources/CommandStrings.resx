@@ -3096,4 +3096,31 @@
   <data name="waifuleaderboard_usage" xml:space="preserve">
     <value>`{0}waifus`</value>
   </data>
+  <data name="addwritingprompt_cmd" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="addwritingprompt_desc" xml:space="preserve">
+    <value>Add a new writing prompt.</value>
+  </data>
+  <data name="addwritingprompt_usage" xml:space="preserve">
+    <value>`{0}add Write something!`</value>
+  </data>
+  <data name="lastwritingprompt_cmd" xml:space="preserve">
+    <value>last</value>
+  </data>
+  <data name="lastwritingprompt_desc" xml:space="preserve">
+    <value>Gets the most recently added writing prompt.</value>
+  </data>
+  <data name="lastwritingprompt_usage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
+  <data name="randomwritingprompt_cmd" xml:space="preserve">
+    <value>rand</value>
+  </data>
+  <data name="randomwritingprompt_desc" xml:space="preserve">
+    <value>Gets a random writing prompt from the database.</value>
+  </data>
+  <data name="randomwritingprompt_usage" xml:space="preserve">
+    <value>{0}</value>
+  </data>
 </root>

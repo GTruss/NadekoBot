@@ -25,6 +25,7 @@ namespace NadekoBot.Services.Database
         IDiscordUserRepository DiscordUsers { get; }
         IVolunteersRepository Volunteers { get; }
         ITableReadsRepository TableReads { get; }
+        IWritingPromptsRepository WritingPrompts { get; }
 
         int Complete();
         Task<int> CompleteAsync();

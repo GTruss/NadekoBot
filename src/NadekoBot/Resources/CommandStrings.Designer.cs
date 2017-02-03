@@ -222,6 +222,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to add.
+        /// </summary>
+        public static string addwritingprompt_cmd {
+            get {
+                return ResourceManager.GetString("addwritingprompt_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Add a new writing prompt..
+        /// </summary>
+        public static string addwritingprompt_desc {
+            get {
+                return ResourceManager.GetString("addwritingprompt_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to `{0}add Write something!`.
+        /// </summary>
+        public static string addwritingprompt_usage {
+            get {
+                return ResourceManager.GetString("addwritingprompt_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to adsarm.
         /// </summary>
         public static string adsarm_cmd {
@@ -3759,6 +3786,33 @@ namespace NadekoBot.Resources {
         }
         
         /// <summary>
+        ///    Looks up a localized string similar to last.
+        /// </summary>
+        public static string lastwritingprompt_cmd {
+            get {
+                return ResourceManager.GetString("lastwritingprompt_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gets the most recently added writing prompt..
+        /// </summary>
+        public static string lastwritingprompt_desc {
+            get {
+                return ResourceManager.GetString("lastwritingprompt_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string lastwritingprompt_usage {
+            get {
+                return ResourceManager.GetString("lastwritingprompt_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///    Looks up a localized string similar to lcsc.
         /// </summary>
         public static string lcsc_cmd {
@@ -5780,6 +5834,33 @@ namespace NadekoBot.Resources {
         public static string randomimage_usage {
             get {
                 return ResourceManager.GetString("randomimage_usage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to rand.
+        /// </summary>
+        public static string randomwritingprompt_cmd {
+            get {
+                return ResourceManager.GetString("randomwritingprompt_cmd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to Gets a random writing prompt from the database..
+        /// </summary>
+        public static string randomwritingprompt_desc {
+            get {
+                return ResourceManager.GetString("randomwritingprompt_desc", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///    Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string randomwritingprompt_usage {
+            get {
+                return ResourceManager.GetString("randomwritingprompt_usage", resourceCulture);
             }
         }
         

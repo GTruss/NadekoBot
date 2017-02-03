@@ -25,6 +25,8 @@ namespace NadekoBot.Modules.Searches
             public bool IsLive { get; set; }
             public string ApiLink { get; set; }
             public string Views { get; set; }
+            public string Game { get; set; }
+            public string Status { get; set; }
         }
 
         public class HitboxResponse {
@@ -45,6 +47,12 @@ namespace NadekoBot.Modules.Searches
             public class StreamInfo
             {
                 public int Viewers { get; set; }
+                public string Game { get; set; }
+                public ChannelInfo Channel { get; set; }
+
+                public class ChannelInfo {
+                    public string Status { get; set; }
+                }
             }
         }
 
@@ -111,6 +119,7 @@ namespace NadekoBot.Modules.Searches
                                 try
                                 {
                                     var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
+                                    await channel.SendMessageAsync(fs.GetLink());
                                 }
                                 catch { }
                             }
@@ -162,9 +171,12 @@ namespace NadekoBot.Modules.Searches
                         }
                         result = new StreamStatus()
                         {
+                           
                             IsLive = twData.IsLive,
                             ApiLink = twitchUrl,
-                            Views = twData.Stream?.Viewers.ToString() ?? "0"
+                            Views = twData.Stream?.Viewers.ToString() ?? "0",
+                            Game = twData.Stream?.Game,
+                            Status = twData.Stream?.Channel?.Status
                         };
                         cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
                         return result;
@@ -331,7 +343,8 @@ namespace NadekoBot.Modules.Searches
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
+                await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes. aoeuaoeu ").ConfigureAwait(false);
+                await channel.SendMessageAsync(fs.GetLink());
             }
         }
     }
@@ -342,16 +355,23 @@ namespace NadekoBot.Modules.Searches
         {
             var embed = new EmbedBuilder().WithTitle(fs.Username)
                                           .WithUrl(fs.GetLink())
+                                          .WithThumbnailUrl(fs.GetLink())
+                                          .WithDescription(status.Status)
                                           .AddField(efb => efb.WithName("Status")
                                                             .WithValue(status.IsLive ? "Online" : "Offline")
                                                             .WithIsInline(true))
                                           .AddField(efb => efb.WithName("Viewers")
                                                             .WithValue(status.IsLive ? status.Views : "-")
                                                             .WithIsInline(true))
+                                          .AddField(efb => efb.WithName("Game")
+                                                            .WithValue(status.Game)
+                                                            .WithIsInline(true))
                                           .AddField(efb => efb.WithName("Platform")
                                                             .WithValue(fs.Type.ToString())
                                                             .WithIsInline(true))
                                           .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor);
+                                          
+
 
             return embed;
         }

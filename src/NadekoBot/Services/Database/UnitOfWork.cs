@@ -60,6 +60,9 @@ namespace NadekoBot.Services.Database
         private ITableReadsRepository _tableReads;
         public ITableReadsRepository TableReads => _tableReads ?? (_tableReads = new TableReadsRepository(_context));
 
+
+        private IWritingPromptsRepository _writingPrompts;
+        public IWritingPromptsRepository WritingPrompts => _writingPrompts ?? (_writingPrompts = new WritingPromptsRepository(_context));
         public UnitOfWork(NadekoContext context)
         {
             _context = context;

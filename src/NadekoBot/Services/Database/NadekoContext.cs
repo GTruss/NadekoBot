@@ -40,6 +40,7 @@ namespace NadekoBot.Services.Database
         public DbSet<WaifuUpdate> WaifuUpdates { get; set; }
         public DbSet<Volunteer> Volunteers { get; set; }
         public DbSet<TableRead> TableReads { get; set; }
+        public DbSet<WritingPrompt> WritingPrompts { get; set; }
 
         //logging
         public DbSet<LogSetting> LogSettings { get; set; }
@@ -285,6 +286,14 @@ namespace NadekoBot.Services.Database
             var tableReadEntity = modelBuilder.Entity<TableRead>();
             tableReadEntity
                 .HasIndex(d => d.GuildId)
+                .IsUnique();
+            #endregion
+
+            #region Writing Prompts
+
+            var writingPromptEntity = modelBuilder.Entity<WritingPrompt>();
+            writingPromptEntity
+                .HasIndex(d => d.Id)
                 .IsUnique();
             #endregion
         }
