@@ -6,6 +6,7 @@
         public string Username { get; set; }
         public FollowedStreamType Type { get; set; }
         public ulong GuildId { get; set; }
+        public int StreamerId { get; set; }
 
         public enum FollowedStreamType
         {

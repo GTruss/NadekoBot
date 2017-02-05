@@ -27,6 +27,9 @@ namespace NadekoBot.Modules.Searches
             public string Views { get; set; }
             public string Game { get; set; }
             public string Status { get; set; }
+            public string PreviewLink { get; set; }
+            public string DisplayName { get; set; }
+            public string Logo { get; set; }
         }
 
         public class HitboxResponse {
@@ -52,8 +55,25 @@ namespace NadekoBot.Modules.Searches
 
                 public class ChannelInfo {
                     public string Status { get; set; }
+                    public string Display_Name { get; set; }
+                    public string Logo { get; set; }
+                }
+
+                public PreviewLinks Preview { get; set; }
+                public class PreviewLinks {
+                    public string Medium { get; set; }
                 }
             }
+        }
+
+        public class TwitchUsersResponse {
+            public List<TwitchUsers> Users { get; set; }
+            
+            public class TwitchUsers {
+                public string Error { get; set; } = null;
+                public int _id { get; set; }
+            }
+
         }
 
         public class BeamResponse
@@ -119,7 +139,7 @@ namespace NadekoBot.Modules.Searches
                                 try
                                 {
                                     var msg = await channel.EmbedAsync(fs.GetEmbed(newStatus)).ConfigureAwait(false);
-                                    await channel.SendMessageAsync(fs.GetLink());
+                                    //await channel.SendMessageAsync(fs.GetLink());
                                 }
                                 catch { }
                             }
@@ -157,26 +177,50 @@ namespace NadekoBot.Modules.Searches
                         cachedStatuses.AddOrUpdate(hitboxUrl, result, (key, old) => result);
                         return result;
                     case FollowedStream.FollowedStreamType.Twitch:
-                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+
+                        if (stream.StreamerId == 0)
+                            throw new StreamNotFoundException($"Invalid Streamer Id {stream.StreamerId} for {stream.Username} [{stream.Type}]");
+
+
+                        // API ver 3
+                        //var twitchUrl = $"https://api.twitch.tv/kraken/streams/{Uri.EscapeUriString(stream.Username.ToLowerInvariant())}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6";
+
+                        // API ver 5
+                        var twitchUrl = $"https://api.twitch.tv/kraken/streams/{stream.StreamerId}?client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6&&api_version=5";
+
+                        //var _log = LogManager.GetCurrentClassLogger();
+                        //_log.Info($"[{stream.Username}] Stream URL: {twitchUrl}");
+
                         if (checkCache && cachedStatuses.TryGetValue(twitchUrl, out result))
                             return result;
                         using (var http = new HttpClient())
                         {
                             response = await http.GetStringAsync(twitchUrl).ConfigureAwait(false);
+                            //_log.Info($"[{stream.Username}] Response: {response}");
                         }
+
                         var twData = JsonConvert.DeserializeObject<TwitchResponse>(response);
                         if (twData.Error != null)
                         {
+                            _log.Info($"Error Response: {response} ||| {twData.Error}");
                             throw new StreamNotFoundException($"{stream.Username} [{stream.Type}]");
                         }
+                        //if (twData.Stream == null)
+                        //    _log.Info($"[{stream.Username}] Stream: null");
+                        //else
+                        //    _log.Info($"[{stream.Username}] Stream: not null");
+
                         result = new StreamStatus()
                         {
-                           
+
                             IsLive = twData.IsLive,
                             ApiLink = twitchUrl,
                             Views = twData.Stream?.Viewers.ToString() ?? "0",
                             Game = twData.Stream?.Game,
-                            Status = twData.Stream?.Channel?.Status
+                            Status = twData.Stream?.Channel?.Status,
+                            PreviewLink = twData.Stream?.Preview?.Medium,
+                            DisplayName = twData.Stream?.Channel?.Display_Name,
+                            Logo = twData.Stream?.Channel?.Logo
                         };
                         cachedStatuses.AddOrUpdate(twitchUrl, result, (key, old) => result);
                         return result;
@@ -295,16 +339,15 @@ namespace NadekoBot.Modules.Searches
                 try
                 {
                     var streamStatus = (await GetStreamStatus(new FollowedStream
-                    {
+                    {                        
                         Username = stream,
                         Type = platform,
                     }));
-                    if (streamStatus.IsLive)
-                    {
+
+                    if (streamStatus.IsLive) {
                         await Context.Channel.SendConfirmAsync($"Streamer {username} is online with {streamStatus.Views} viewers.");
                     }
-                    else
-                    {
+                    else {
                         await Context.Channel.SendConfirmAsync($"Streamer {username} is offline.");
                     }
                 }
@@ -317,12 +360,19 @@ namespace NadekoBot.Modules.Searches
             private static async Task TrackStream(ITextChannel channel, string username, FollowedStream.FollowedStreamType type)
             {
                 username = username.ToLowerInvariant().Trim();
+
+                int streamerId = 0;
+                if (type == FollowedStream.FollowedStreamType.Twitch)
+                    streamerId = await GetTwitchStreamerId(username);
+
+
                 var fs = new FollowedStream
                 {
                     GuildId = channel.Guild.Id,
                     ChannelId = channel.Id,
                     Username = username,
                     Type = type,
+                    StreamerId = streamerId
                 };
 
                 StreamStatus status;
@@ -343,8 +393,44 @@ namespace NadekoBot.Modules.Searches
                                     .Add(fs);
                     await uow.CompleteAsync().ConfigureAwait(false);
                 }
-                await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes. aoeuaoeu ").ConfigureAwait(false);
-                await channel.SendMessageAsync(fs.GetLink());
+                if (status.IsLive) {
+                    //var _log = LogManager.GetCurrentClassLogger();
+                    //_log.Info($"Preview Thumbnail: {status.PreviewLink}");
+                    await channel.EmbedAsync(fs.GetEmbed(status), $"🆗 I will notify this channel when status changes.").ConfigureAwait(false);
+                    //await channel.EmbedAsync(new EmbedBuilder().WithOkColor()
+                    //    .WithImageUrl(status.PreviewLink))
+                    //    .ConfigureAwait(false);
+                    //await channel.SendMessageAsync(fs.GetLink());
+                }
+                else
+                    await channel.SendMessageAsync($"🆗 I will notify this channel when status changes.");
+            }
+
+            private static async Task<int> GetTwitchStreamerId(string username) {
+                string response;
+                int id = 0;
+
+                var twitchUrl = $"https://api.twitch.tv/kraken/users?login={Uri.EscapeUriString(username.ToLowerInvariant())}&client_id=67w6z9i09xv2uoojdm9l0wsyph4hxo6&api_version=5";
+
+                var _log = LogManager.GetCurrentClassLogger();
+                //_log.Info($"Channel URL: {twitchUrl}");
+                                                         
+                using (var http = new HttpClient()) {
+                    response = await http.GetStringAsync(twitchUrl).ConfigureAwait(false);
+                    //_log.Info($"Channel URL: {twitchUrl}");
+                    //_log.Info($"Reponse: {response}");
+                }
+
+                var twData = JsonConvert.DeserializeObject<TwitchUsersResponse>(response);
+                if (twData.Users == null || twData.Users.Count == 0) {
+                    _log.Info($"Failed finding Twitch User for {username} [Twitch]");
+                    throw new StreamNotFoundException($"Failed finding Twitch User for {username} [Twitch]");
+                }
+
+                //_log.Info($"Found ID: {twData.Users[0]._id}");
+                id = twData.Users[0]._id;
+
+                return id;
             }
         }
     }
@@ -353,25 +439,28 @@ namespace NadekoBot.Modules.Searches
     {
         public static EmbedBuilder GetEmbed(this FollowedStream fs, Searches.StreamStatus status)
         {
-            var embed = new EmbedBuilder().WithTitle(fs.Username)
-                                          .WithUrl(fs.GetLink())
-                                          .WithThumbnailUrl(fs.GetLink())
-                                          .WithDescription(status.Status)
-                                          .AddField(efb => efb.WithName("Status")
-                                                            .WithValue(status.IsLive ? "Online" : "Offline")
-                                                            .WithIsInline(true))
-                                          .AddField(efb => efb.WithName("Viewers")
-                                                            .WithValue(status.IsLive ? status.Views : "-")
-                                                            .WithIsInline(true))
-                                          .AddField(efb => efb.WithName("Game")
-                                                            .WithValue(status.Game)
-                                                            .WithIsInline(true))
-                                          .AddField(efb => efb.WithName("Platform")
-                                                            .WithValue(fs.Type.ToString())
-                                                            .WithIsInline(true))
-                                          .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor);
-                                          
+            var embed = new EmbedBuilder()
+                            .WithTitle(status.DisplayName)
+                            .WithUrl(fs.GetLink())
+                            .WithThumbnailUrl(fs.GetLink())
+                            .WithThumbnailUrl(status.Logo)
+                            .WithDescription(status.Status)
+                            .AddField(efb => efb.WithName("Status")
+                                            .WithValue(status.IsLive ? "Online" : "Offline")
+                                            .WithIsInline(true))
+                            .AddField(efb => efb.WithName("Viewers")
+                                            .WithValue(status.IsLive ? status.Views : "-")
+                                            .WithIsInline(true))
+                            .AddField(efb => efb.WithName("Game")
+                                            .WithValue(status.Game)
+                                            .WithIsInline(true))
+                            .AddField(efb => efb.WithName("Platform")
+                                            .WithValue(fs.Type.ToString())
+                                            .WithIsInline(true))
+                            .WithColor(status.IsLive ? NadekoBot.OkColor : NadekoBot.ErrorColor)
+                            .WithImageUrl(status.PreviewLink);
 
+            //embed.ImageUrl = status.PreviewLink;
 
             return embed;
         }

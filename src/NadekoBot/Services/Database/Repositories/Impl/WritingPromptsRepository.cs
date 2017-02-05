@@ -20,7 +20,7 @@ namespace NadekoBot.Services.Database.Repositories.Impl
 
             int count = _set.Count();
 
-            NadekoRandom rnd = new NadekoRandom();
+            System.Random rnd = new System.Random(System.DateTime.Now.Millisecond);
             int id = rnd.Next(1, count);
 
             var prompt = _set.Where(p => p.Id == id).FirstOrDefault();
