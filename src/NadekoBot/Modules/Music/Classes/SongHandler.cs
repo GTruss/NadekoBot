@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using VideoLibrary;
+using NLog;
 
 namespace NadekoBot.Modules.Music.Classes
 {
@@ -77,9 +78,17 @@ namespace NadekoBot.Modules.Music.Classes
                     { TotalTime = TimeSpan.FromMilliseconds(svideo.Duration) };
                 }
 
+
+                //var _log = LogManager.GetCurrentClassLogger();
+                //_log.Info($"query: {query}");
+
                 var link = (await NadekoBot.Google.GetVideosByKeywordsAsync(query).ConfigureAwait(false)).FirstOrDefault();
+
+                //_log.Info($"link: {link}");
+
                 if (string.IsNullOrWhiteSpace(link))
                     throw new OperationCanceledException("Not a valid youtube query.");
+
                 var allVideos = await Task.Run(async () => { try { return await YouTube.Default.GetAllVideosAsync(link).ConfigureAwait(false); } catch { return Enumerable.Empty<YouTubeVideo>(); } }).ConfigureAwait(false);
                 var videos = allVideos.Where(v => v.AdaptiveKind == AdaptiveKind.Audio);
                 var video = videos
@@ -93,11 +102,18 @@ namespace NadekoBot.Modules.Music.Classes
                 int gotoTime = 0;
                 if (m.Captures.Count > 0)
                     int.TryParse(m.Groups["t"].ToString(), out gotoTime);
+
+                //_log.Info($"video: {video.FullName}");
+
+                string uri = await video.GetUriAsync();
+                //_log.Info($"Uri: {uri}");
+
+
                 var song = new Song(new SongInfo
                 {
                     Title = video.Title.Substring(0, video.Title.Length - 10), // removing trailing "- You Tube"
                     Provider = "YouTube",
-                    Uri = video.Uri,
+                    Uri = uri,
                     Query = link,
                     ProviderType = musicType,
                 });
@@ -106,7 +122,7 @@ namespace NadekoBot.Modules.Music.Classes
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed resolving the link.{ex.Message}");
+                Console.WriteLine($"Failed resolving the link.{ex.ToString()}");
                 return null;
             }
         }
